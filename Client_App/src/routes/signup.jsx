@@ -1,5 +1,5 @@
 import "../App.css";
 
-export default function signUp() {
+export default function SignUp() {
   return <h1>Hi. Signup page here.</h1>;
 }

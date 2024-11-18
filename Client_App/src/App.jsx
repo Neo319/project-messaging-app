@@ -29,11 +29,29 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
 
+      {/* ROUTES */}
       <p>Client-side routing test go!! </p>
       <ul>
+        {/* SIGNUP */}
         <li>
           <a href="signup" target="_blank" rel="noopener noreferrer">
             Sign up page
+          </a>
+        </li>
+        {/* LOGIN */}
+        <li>
+          <a href="login" target="_blank" rel="noopener noreferrer">
+            Login page
+          </a>
+        </li>
+        {/* DASHBOARD */}
+        <li>
+          <a href="dashboard">Dashboard</a>
+        </li>
+        {/* MESSAGES */}
+        <li>
+          <a href="message" rel="noopener noreferrer">
+            Message
           </a>
         </li>
       </ul>

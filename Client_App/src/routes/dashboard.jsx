@@ -1,5 +1,5 @@
 import "../App.css";
 
-export default function signUp() {
+export default function Dashboard() {
   return <h1>Hi. Dashboard page here.</h1>;
 }

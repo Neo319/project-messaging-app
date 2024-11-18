@@ -6,6 +6,9 @@ import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import SignUp from "./routes/signup.jsx";
+import Login from "./routes/login.jsx";
+import Dashboard from "./routes/dashboard.jsx";
+import Message from "./routes/message.jsx";
 
 // client side routes.
 const router = createBrowserRouter([
@@ -16,6 +19,18 @@ const router = createBrowserRouter([
   {
     path: "signup",
     element: <SignUp />,
+  },
+  {
+    path: "login",
+    element: <Login />,
+  },
+  {
+    path: "dashboard",
+    element: <Dashboard />,
+  },
+  {
+    path: "message",
+    element: <Message />,
   },
 ]);
 
