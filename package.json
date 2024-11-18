@@ -1,0 +1,18 @@
+{
+  "name": "project-messaging-app",
+  "version": "1.0.0",
+  "description": "A project in the Odin Project curriculum that involves creating the back and front end of a simple messaging app, where users can message one another.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.7",
+    "react": "^18.3.1",
+    "vite": "^5.4.11"
+  }
+}
