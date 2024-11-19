@@ -2,6 +2,9 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
+import footer from "./components/footer";
+
+import icon from "./assets/messageIcon2.jpg";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -29,6 +32,9 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
 
+      <p>Image?</p>
+      <img src={icon} alt="messager logo" className="icon message" />
+
       {/* ROUTES */}
       <p>Client-side routing test go!! </p>
       <ul>
@@ -55,6 +61,7 @@ function App() {
           </a>
         </li>
       </ul>
+      {footer()}
     </>
   );
 }
