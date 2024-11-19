@@ -11,7 +11,7 @@ router.get("/signup", indexController.signup_get);
 
 router.post("/signup", indexController.signup_post);
 
-// router.get("/login");
+router.get("/login");
 
 // router.get("/dashboard");
 
