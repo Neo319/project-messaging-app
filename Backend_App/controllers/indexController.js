@@ -3,8 +3,22 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
+//SET UP DB for either test or dev environments.
+const prisma = (() => {
+  const { PrismaClient } = require("@prisma/client");
+
+  const databaseUrl =
+    process.env.NODE_ENV === "test"
+      ? process.env.TEST_DATABASE_URL
+      : process.env.DATABASE_URL;
+  return new PrismaClient({
+    datasources: {
+      db: {
+        url: databaseUrl,
+      },
+    },
+  });
+})();
 
 async function signup_get(req, res) {
   res.send("not implemented: signup get");
@@ -13,6 +27,7 @@ async function signup_get(req, res) {
 // SIGN UP & create a user
 async function signup_post(req, res) {
   const { username, password } = req.body;
+  console.log(req.body);
 
   if (!username || !password) {
     console.log("Error: incomplete credentials");
@@ -25,10 +40,7 @@ async function signup_post(req, res) {
     result = await prisma.user.create({
       data: {
         username: username,
-        email: email,
         password: bcrypt.hashSync(password),
-
-        isAuthor: false,
       },
     });
     console.log(result);
