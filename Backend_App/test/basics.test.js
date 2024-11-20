@@ -56,24 +56,24 @@ test("database exists", async () => {
   //
 });
 
-// test("index route works", (done) => {
-//   request(app).get("/").expect(200, done);
-// });
+test("signup_post creates user", async () => {
+  // Send the POST request
+  const response = await request(app)
+    .post("/signup")
+    .send({ username: "john", password: "asdf" })
+    .set("Accept", "application/json");
 
-// test("signup_post creates user", (done) => {
-//   request(app)
-//     .post("/signup")
-//     .send({ username: "john", password: "asdf" })
-//     .set("Accept", "json")
-//     .expect(
-//       prisma.user.findFirstOrThrow({
-//         where: {
-//           username: "john",
-//         },
-//       })
-//     )
-//     .end((err, res) => {
-//       if (err) return done(err);
-//       return done();
-//     });
-// });
+  // Check the response status
+  expect(response.status).toBe(200); // Adjust this based on your app's behavior
+
+  // Verify the user was created in the database
+  const user = await prisma.user.findFirstOrThrow({
+    where: {
+      username: "john",
+    },
+  });
+
+  // Assert that the user exists and has the correct data
+  expect(user).not.toBeNull();
+  expect(user.username).toBe("john");
+});
