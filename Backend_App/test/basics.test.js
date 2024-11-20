@@ -49,8 +49,11 @@ afterAll(async () => {
 app.use(express.urlencoded({ extended: false }));
 app.use("/", index);
 
-test("database exists", async (done) => {
-  console.log("test user: ", await prisma.user.findFirstOrThrow());
+test("database exists", async () => {
+  const user = await prisma.user.findFirstOrThrow();
+
+  expect(user).not.toBeNull();
+  //
 });
 
 // test("index route works", (done) => {

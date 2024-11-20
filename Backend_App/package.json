@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "dev": "NODE_ENV=dev nodemon app.js",
-    "test": "NODE_ENV=test && jest --watch --detectOpenHandles",
+    "test": "NODE_ENV=test && jest --watch ",
     "buildTest": "NODE_ENV=test && DATABASE_URL=postgresql://alexnevins:Kappuccino1987@localhost:5432/messagingapp_test?schema=public && npx prisma generate && npx prisma migrate dev"
   },
   "keywords": [],
