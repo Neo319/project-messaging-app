@@ -64,7 +64,7 @@ test("signup_post creates user", async () => {
     .set("Accept", "application/json");
 
   // Check the response status
-  expect(response.status).toBe(200); // Adjust this based on your app's behavior
+  expect(response.status).toBe(200);
 
   // Verify the user was created in the database
   const user = await prisma.user.findFirstOrThrow({
@@ -76,4 +76,22 @@ test("signup_post creates user", async () => {
   // Assert that the user exists and has the correct data
   expect(user).not.toBeNull();
   expect(user.username).toBe("john");
+});
+
+describe("Login", () => {
+  test("sends token on success", async () => {
+    const response = await request(app)
+      .post("/signup")
+      .send({ username: "john", password: "asdf" });
+
+    //check response status
+    expect(response.status).toBe(200);
+
+    const loginResponse = await request(app)
+      .post("/login")
+      .send({ username: "john", password: "asdf" });
+
+    expect(loginResponse.status).toBe(200);
+    expect(loginResponse.token).not.toBeNull();
+  });
 });

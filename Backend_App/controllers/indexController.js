@@ -99,5 +99,6 @@ async function login_get(req, res) {
 module.exports = {
   signup_get,
   signup_post,
+  login_get,
   //
 };
