@@ -98,4 +98,22 @@ describe("Login", () => {
   test("sends token on success", async () => {
     expect(token).not.toBeNull();
   });
+
+  test("logins fail with incorrect data", async () => {
+    const response = await request(app)
+      .post("/login")
+      .send({ username: "incorrect", password: "incorrect" });
+    expect(response.ok).toBeFalsy();
+  });
+
+  test("cannot login with incorrect password", async () => {
+    const response = await request(app)
+      .post("/login")
+      .send({ username: "uniqueTest", password: "incorrect" });
+    expect(response.ok).toBeFalsy();
+  });
+
+  test("can access protected route with token header", () => {
+    //TODO
+  });
 });
