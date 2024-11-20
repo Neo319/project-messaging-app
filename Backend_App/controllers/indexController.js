@@ -60,7 +60,6 @@ async function signup_post(req, res) {
 
 // LOGIN & create jsonwebtoken.
 async function login_post(req, res) {
-  console.log("debug key=", SECRET_KEY);
   // getting credentials
   const { username, password } = req.body;
   if (!username || !password) {
