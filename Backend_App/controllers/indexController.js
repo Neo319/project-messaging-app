@@ -1,7 +1,12 @@
 //TODO: implement passport, jwt, bcrypt signups
+require("dotenv").config();
+
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
+
+//jwt secret from .env
+const SECRET_KEY = process.env.SECRET_KEY;
 
 //SET UP DB for either test or dev environments.
 const prisma = (() => {
@@ -27,7 +32,6 @@ async function signup_get(req, res) {
 // SIGN UP & create a user
 async function signup_post(req, res) {
   const { username, password } = req.body;
-  console.log(req.body);
 
   if (!username || !password) {
     console.log("Error: incomplete credentials");
@@ -43,7 +47,6 @@ async function signup_post(req, res) {
         password: bcrypt.hashSync(password),
       },
     });
-    console.log(result);
   } catch (err) {
     console.log("signup err");
     console.error(err.message);
@@ -56,10 +59,10 @@ async function signup_post(req, res) {
 }
 
 // LOGIN & create jsonwebtoken.
-async function login_get(req, res) {
+async function login_post(req, res) {
+  console.log("debug key=", SECRET_KEY);
   // getting credentials
   const { username, password } = req.body;
-  console.log(req.body);
   if (!username || !password) {
     console.log("error: incomplete request");
     return res.status(400).send({ message: "Error: incomplete request." });
@@ -92,13 +95,13 @@ async function login_get(req, res) {
       token: token,
     });
   } catch (err) {
-    console.log("error during login.");
+    console.error("error during login", err.message);
     return res.status(403).send({ message: "Error during login." });
   }
 }
 module.exports = {
   signup_get,
   signup_post,
-  login_get,
+  login_post,
   //
 };

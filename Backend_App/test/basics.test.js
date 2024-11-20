@@ -82,14 +82,14 @@ describe("Login", () => {
   test("sends token on success", async () => {
     const response = await request(app)
       .post("/signup")
-      .send({ username: "john", password: "asdf" });
+      .send({ username: "uniqueTest", password: "asdf" });
 
     //check response status
     expect(response.status).toBe(200);
 
     const loginResponse = await request(app)
       .post("/login")
-      .send({ username: "john", password: "asdf" });
+      .send({ username: "uniqueTest", password: "asdf" });
 
     expect(loginResponse.status).toBe(200);
     expect(loginResponse.token).not.toBeNull();
