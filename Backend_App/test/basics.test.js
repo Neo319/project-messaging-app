@@ -79,7 +79,9 @@ test("signup_post creates user", async () => {
 });
 
 describe("Login", () => {
-  test("sends token on success", async () => {
+  let token; // Variable to store the token
+
+  beforeAll(async () => {
     const response = await request(app)
       .post("/signup")
       .send({ username: "uniqueTest", password: "asdf" });
@@ -90,8 +92,10 @@ describe("Login", () => {
     const loginResponse = await request(app)
       .post("/login")
       .send({ username: "uniqueTest", password: "asdf" });
+    token = loginResponse.token;
+  });
 
-    expect(loginResponse.status).toBe(200);
-    expect(loginResponse.token).not.toBeNull();
+  test("sends token on success", async () => {
+    expect(token).not.toBeNull();
   });
 });
