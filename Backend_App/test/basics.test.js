@@ -125,16 +125,22 @@ describe("Login", () => {
     expect(response.status).toBe(200);
   });
 
-  test("can access protected route only with token header", async () => {
-    const response1 = await request(app).get("/app/dashboard");
+  test("can access protected route only with correct token header", async () => {
     //missing authorization
+    const response1 = await request(app).get("/app/dashboard");
     console.log("missing auth req status", response1.status);
     expect(response1.status).toBe(401);
 
+    // incorrect authorization
     const response2 = await request(app)
       .get("/app/dashboard")
-      .set("Authorization", `Bearer ${token}`);
+      .set("Authorization", `Bearer foobar`);
+    console.log("incorrext request status:", response2.status);
+    expect(response2.status).toBe(401);
 
+    const response3 = await request(app)
+      .get("/app/dashboard")
+      .set("Authorization", `Bearer ${token}`);
     console.log("authorized request status:", response2.status);
     expect(response2.status).toBe(200);
   });
