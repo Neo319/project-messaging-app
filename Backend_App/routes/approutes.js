@@ -7,6 +7,13 @@ router.get("/", (req, res) => {
   res.send("app router (WIP)");
 });
 
+// get info for dashboard, links
 router.get("/dashboard", appController.dashboard_get);
+
+// get list of users to message/contacts
+router.get("/messages", appController.message_get);
+
+// send a message to a user
+// router.post("/messages/:userId")
 
 module.exports = router;

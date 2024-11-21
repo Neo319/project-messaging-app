@@ -80,6 +80,7 @@ test("signup_post creates user", async () => {
   expect(user.username).toBe("john");
 });
 
+// LOGGING IN TESTS
 describe("Login", () => {
   let token; // Variable to store the token
 
@@ -128,20 +129,41 @@ describe("Login", () => {
   test("can access protected route only with correct token header", async () => {
     //missing authorization
     const response1 = await request(app).get("/app/dashboard");
-    console.log("missing auth req status", response1.status);
     expect(response1.status).toBe(401);
 
     // incorrect authorization
     const response2 = await request(app)
       .get("/app/dashboard")
       .set("Authorization", `Bearer foobar`);
-    console.log("incorrext request status:", response2.status);
     expect(response2.status).toBe(401);
 
     const response3 = await request(app)
       .get("/app/dashboard")
       .set("Authorization", `Bearer ${token}`);
-    console.log("authorized request status:", response2.status);
     expect(response3.status).toBe(200);
+  });
+});
+
+// MESSAGES TESTS
+describe("Messages", () => {
+  let token; // Variable to store the token
+
+  beforeAll(async () => {
+    const loginResponse = await request(app)
+      .post("/login")
+      .send({ username: "uniqueTest", password: "asdf" });
+
+    const jsonData = JSON.parse(loginResponse.text);
+    // TOKEN FOUND HERE
+    token = jsonData.token;
+    expect(token).toBeDefined();
+  });
+
+  test("route exists to view messages", async () => {
+    expect(token).toBeDefined();
+    const response = await request(app)
+      .get("/app/messages")
+      .set("Authorization", `Bearer ${token}`);
+    expect(response.status).toBe(200);
   });
 });
