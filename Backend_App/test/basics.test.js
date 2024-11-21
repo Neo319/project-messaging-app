@@ -142,6 +142,6 @@ describe("Login", () => {
       .get("/app/dashboard")
       .set("Authorization", `Bearer ${token}`);
     console.log("authorized request status:", response2.status);
-    expect(response2.status).toBe(200);
+    expect(response3.status).toBe(200);
   });
 });
