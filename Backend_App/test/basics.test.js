@@ -95,10 +95,11 @@ describe("Login", () => {
       .post("/login")
       .send({ username: "uniqueTest", password: "asdf" });
 
+    const jsonData = JSON.parse(loginResponse.text);
     // TOKEN FOUND HERE
-    console.log("debug: token = ", loginResponse.text);
+    console.log("debug: token = ", jsonData);
 
-    token = loginResponse.token;
+    token = jsonData.token;
     expect(token).toBeDefined();
   });
 
