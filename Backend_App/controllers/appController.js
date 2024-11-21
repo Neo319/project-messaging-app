@@ -1,15 +1,25 @@
 require("dotenv").config();
 
-const dashboard_get = (req, res) => {
-  const authHeader = req.headers.authorization;
-  console.log("authorization recieved: ", authHeader);
+const SECRET_KEY = process.env.SECRET_KEY;
+const jwt = require("jsonwebtoken");
+const verify = require("../config/jwt");
 
-  if (!authHeader) {
-    return res.status(401).send("Not authorized: missing login token.");
-  } else {
-    return res.status(200).send(`Authorized with header: ${authHeader}`);
-  }
-};
+//PROTECTED ROUTE
+const dashboard_get = [
+  verify,
+  async function (req, res) {
+    jwt.verify(req.token, SECRET_KEY, (err, authData) => {
+      if (err) {
+        return res.status(401).send({ message: "error during authorization." });
+      } else {
+        console.log("successful -- ", authData);
+        return res
+          .status(200)
+          .send({ message: "successfully renders dashboard" });
+      }
+    });
+  },
+];
 
 module.exports = {
   dashboard_get,
