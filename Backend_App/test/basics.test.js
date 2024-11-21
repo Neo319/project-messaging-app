@@ -1,4 +1,5 @@
 const index = require("../routes/index");
+const approutes = require("../routes/approutes");
 
 const request = require("supertest");
 const express = require("express");
@@ -48,6 +49,7 @@ afterAll(async () => {
 
 app.use(express.urlencoded({ extended: false }));
 app.use("/", index);
+app.use("/app", approutes);
 
 test("database exists", async () => {
   const user = await prisma.user.findFirstOrThrow();
@@ -92,20 +94,24 @@ describe("Login", () => {
     const loginResponse = await request(app)
       .post("/login")
       .send({ username: "uniqueTest", password: "asdf" });
+
+    // TOKEN FOUND HERE
+    console.log("debug: token = ", loginResponse.text);
+
     token = loginResponse.token;
+    expect(token).toBeDefined();
   });
 
   test("sends token on success", async () => {
     expect(token).not.toBeNull();
+    expect(token).toBeDefined();
   });
-
   test("logins fail with incorrect data", async () => {
     const response = await request(app)
       .post("/login")
       .send({ username: "incorrect", password: "incorrect" });
     expect(response.ok).toBeFalsy();
   });
-
   test("cannot login with incorrect password", async () => {
     const response = await request(app)
       .post("/login")
@@ -113,7 +119,22 @@ describe("Login", () => {
     expect(response.ok).toBeFalsy();
   });
 
-  test("can access protected route with token header", () => {
-    //TODO
+  test("app route exists", async () => {
+    const response = await request(app).get("/app");
+    expect(response.status).toBe(200);
+  });
+
+  test("can access protected route only with token header", async () => {
+    const response1 = await request(app).get("/app/dashboard");
+    //missing authorization
+    console.log("missing auth req status", response1.status);
+    expect(response1.status).toBe(401);
+
+    const response2 = await request(app)
+      .get("/app/dashboard")
+      .set("Authorization", `Bearer ${token}`);
+
+    console.log("authorized request status:", response2.status);
+    expect(response2.status).toBe(200);
   });
 });
