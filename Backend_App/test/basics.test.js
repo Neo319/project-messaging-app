@@ -190,7 +190,7 @@ describe("Messages", () => {
     expect(second).toBeDefined();
   });
 
-  test("can access a message from one user to another...", async () => {
+  test("can access a message from one user to another", async () => {
     // send message from first user to second
     await request(app)
       .post("/app/messages")
@@ -201,7 +201,18 @@ describe("Messages", () => {
     const dbMessage = await prisma.message.findFirstOrThrow({
       where: { text: "Test message" },
     });
-    console.log("debug - dbmessage ", dbMessage);
     expect(dbMessage).not.toBeFalsy;
   });
+
+  test("reciever can see sender in list of contacts", async () => {
+    const response = await request(app)
+      .get("/app/messages")
+      .set("Authorization", `Bearer ${token2}`);
+
+    expect(response.contacts).toBeDefined();
+    expect(response.contacts).toBeInstanceOf(Array);
+    expect(response.contacts).toContain("john"); // username can be found from this response
+  });
+
+  // test("reciever can see message contents in message history")
 });

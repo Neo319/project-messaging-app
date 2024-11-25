@@ -42,13 +42,26 @@ const dashboard_get = [
 const message_get = [
   verify,
   function (req, res) {
-    jwt.verify(req.token, SECRET_KEY, (err, authData) => {
+    jwt.verify(req.token, SECRET_KEY, async (err, authData) => {
       if (err) {
         return res.status(401).send({ message: "error during authorization." });
       } else {
         console.log("successful message authentication");
-        return res.send({ message: "render list of users to message..." });
+        try {
+          // Find all users needed
+          const authUser = await prisma.user.findUnique({
+            where: { id: authData.user.id },
+          });
+          console.log(authData);
+          console.log(authUser);
+          // return array in res
+        } catch (err) {
+          console.error("error fetching messages", err.message);
+          return res.send("error fetching messages", err.message);
+        }
       }
+      console.error("message_get route should not end here");
+      res.end("route ended...");
     });
   },
 ];
