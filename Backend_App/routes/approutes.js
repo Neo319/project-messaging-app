@@ -13,6 +13,8 @@ router.get("/dashboard", appController.dashboard_get);
 // get list of users to message/contacts
 router.get("/messages", appController.message_get);
 
+router.post("/messages", appController.message_post);
+
 // send a message to a user
 // router.post("/messages/:userId")
 

@@ -13,7 +13,6 @@ app.use(express.json());
 const prisma = (() => {
   const { PrismaClient } = require("@prisma/client");
   const databaseUrl = process.env.TEST_DATABASE_URL;
-  console.log("using db url: ", databaseUrl);
   return new PrismaClient({
     datasources: {
       db: {
@@ -98,7 +97,6 @@ describe("Login", () => {
 
     const jsonData = JSON.parse(loginResponse.text);
     // TOKEN FOUND HERE
-    console.log("debug: token = ", jsonData);
 
     token = jsonData.token;
     expect(token).toBeDefined();
@@ -188,7 +186,6 @@ describe("Messages", () => {
     const second = await prisma.user.findUniqueOrThrow({
       where: { username: "testSender" },
     });
-    console.log("debug -- two users: ", first, second);
     expect(first).toBeDefined();
     expect(second).toBeDefined();
   });
@@ -196,19 +193,15 @@ describe("Messages", () => {
   test("can access a message from one user to another...", async () => {
     // send message from first user to second
     await request(app)
-      .post("/app/message")
+      .post("/app/messages")
       .set("Authorization", `Bearer ${token}`)
       .send({ message: "Test message", reciever: "john" }); // send username of reciever with post request
 
-    // request message from second
-    const response = await request(app)
-      .get("/app/message/john") // insert reciever username as URL parameter in this route
-      .set("Authorization", `Bearer ${token}`);
-
-    console.log("debug -- response: ", response.body);
-
-    expect(response.message);
-
-    // assert message exists
+    //assert this message exists
+    const dbMessage = await prisma.message.findFirstOrThrow({
+      where: { text: "Test message" },
+    });
+    console.log("debug - dbmessage ", dbMessage);
+    expect(dbMessage).not.toBeFalsy;
   });
 });
