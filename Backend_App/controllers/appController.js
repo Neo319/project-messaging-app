@@ -15,7 +15,7 @@ const dashboard_get = [
         console.log("successful -- ", authData);
         return res
           .status(200)
-          .send({ message: "successfully renders dashboard" });
+          .send({ message: "successfully renders dashboard" }); // TODO: should send array of users that have any message history
       }
     });
   },
@@ -43,3 +43,11 @@ module.exports = {
 };
 
 // TODO: implement db queries in these routes
+
+//TODO: routes -
+//  - message_post(user in body) ;
+//  - message_get/:user (display message history w/ user) ;
+//  - add user as a friend/contact?
+//  - later: customize own profile
+
+//  (message updates and deletes later)
