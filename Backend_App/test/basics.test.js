@@ -183,21 +183,32 @@ describe("Messages", () => {
 
   test("two users exist", async () => {
     const first = await prisma.user.findUniqueOrThrow({
-      where: {
-        username: "john",
-      },
+      where: { username: "john" },
     });
     const second = await prisma.user.findUniqueOrThrow({
-      where: {
-        username: "testSender",
-      },
+      where: { username: "testSender" },
     });
-
     console.log("debug -- two users: ", first, second);
-
     expect(first).toBeDefined();
     expect(second).toBeDefined();
   });
 
-  // test("can access a message from one user to another...")
+  test("can access a message from one user to another...", async () => {
+    // send message from first user to second
+    await request(app)
+      .post("/app/message")
+      .set("Authorization", `Bearer ${token}`)
+      .send({ message: "Test message", reciever: "john" }); // send username of reciever with post request
+
+    // request message from second
+    const response = await request(app)
+      .get("/app/message/john") // insert reciever username as URL parameter in this route
+      .set("Authorization", `Bearer ${token}`);
+
+    console.log("debug -- response: ", response.body);
+
+    expect(response.message);
+
+    // assert message exists
+  });
 });
