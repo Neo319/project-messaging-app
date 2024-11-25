@@ -147,16 +147,30 @@ describe("Login", () => {
 // MESSAGES TESTS
 describe("Messages", () => {
   let token; // Variable to store the token
+  let token2; // Variable for second user sending messages
 
   beforeAll(async () => {
     const loginResponse = await request(app)
       .post("/login")
       .send({ username: "uniqueTest", password: "asdf" });
 
-    const jsonData = JSON.parse(loginResponse.text);
+    let jsonData = JSON.parse(loginResponse.text);
     // TOKEN FOUND HERE
     token = jsonData.token;
     expect(token).toBeDefined();
+
+    // user to recieve messages
+    const secondUser = await request(app)
+      .post("/signup")
+      .send({ username: "testSender", password: "fdsa" });
+
+    const secondLoginResponse = await request(app)
+      .post("/login")
+      .send({ username: "testSender", password: "fdsa" });
+
+    jsonData = JSON.parse(secondLoginResponse.text);
+    token2 = jsonData.token;
+    expect(token2).toBeDefined();
   });
 
   test("route exists to view messages", async () => {
@@ -166,4 +180,24 @@ describe("Messages", () => {
       .set("Authorization", `Bearer ${token}`);
     expect(response.status).toBe(200);
   });
+
+  test("two users exist", async () => {
+    const first = await prisma.user.findUniqueOrThrow({
+      where: {
+        username: "john",
+      },
+    });
+    const second = await prisma.user.findUniqueOrThrow({
+      where: {
+        username: "testSender",
+      },
+    });
+
+    console.log("debug -- two users: ", first, second);
+
+    expect(first).toBeDefined();
+    expect(second).toBeDefined();
+  });
+
+  // test("can access a message from one user to another...")
 });
