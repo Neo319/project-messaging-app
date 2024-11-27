@@ -12,6 +12,8 @@ router.get("/dashboard", appController.dashboard_get);
 
 // get list of users to message/contacts
 router.get("/messages", appController.message_get);
+//get message history between 2 users
+router.get("/messages/user=:user", appController.conversation_get);
 
 router.post("/messages", appController.message_post);
 

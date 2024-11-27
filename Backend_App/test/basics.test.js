@@ -195,8 +195,8 @@ describe("Messages", () => {
     // send message from first user to second
     await request(app)
       .post("/app/messages")
-      .set("Authorization", `Bearer ${token}`)
-      .send({ message: "Test message", reciever: "john" }); // send username of reciever with post request
+      .set("Authorization", `Bearer ${token2}`)
+      .send({ message: "Test message", reciever: "uniqueTest" }); // send username of reciever with post request
 
     //assert this message exists
     const dbMessage = await prisma.message.findFirstOrThrow({
@@ -207,6 +207,7 @@ describe("Messages", () => {
 
   test("sent message exists in database", async () => {
     const allMessages = await prisma.message.findMany();
+    console.log("debug: all messages - ", allMessages);
     expect(allMessages.length >= 1).toBeTruthy();
   });
 
@@ -214,7 +215,7 @@ describe("Messages", () => {
     // TODO: current problem here is that user id is not matched with the message reciever...
     const response = await request(app)
       .get("/app/messages")
-      .set("Authorization", `Bearer ${token}`);
+      .set("Authorization", `Bearer ${token2}`);
 
     expect(response.body.contacts).toBeDefined();
     expect(response.body.contacts).toBeInstanceOf(Array);
@@ -227,8 +228,8 @@ describe("Messages", () => {
   // test("reciever can see message contents in message history")
   test("reciever can see message contents in message history route", async () => {
     const response = await request(app)
-      .get("/app/messages/user=john") // include username
-      .set("Authorization", `Bearer ${token}`);
+      .get("/app/messages/user=uniqueTest") // include username
+      .set("Authorization", `Bearer ${token2}`);
 
     console.log("debug - messages found: ", response.body);
 

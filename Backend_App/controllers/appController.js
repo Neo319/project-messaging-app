@@ -104,15 +104,19 @@ const conversation_get = [
   function (req, res) {
     jwt.verify(req.token, SECRET_KEY, async (err, authData) => {
       try {
+        console.log("here!");
         const clientUser = authData.user;
-        const user2 = await prisma.findFirstOrThrow({
+        const user2 = await prisma.user.findFirstOrThrow({
           where: {
-            username: req.params.username,
+            username: req.params.user,
           },
         });
 
+        console.log("debug: user2 = ", user2);
+        console.log(req.params);
+
         // handle errors
-        if (!clientUser || !user2) {
+        if (!clientUser || !user2 || !req.params.user) {
           console.error(
             "error getting conversation -- missing data: ",
             clientUser,
@@ -123,19 +127,19 @@ const conversation_get = [
 
         //return all message data between users
         async function getAllMessages(user) {
-          const messages = await prisma.user.findUniqueOrThrow({
+          const messages = await prisma.message.findMany({
             where: {
-              id: user.id,
-            },
-            select: {
-              sentMessages: true,
-              recievedMessages: true,
+              OR: [
+                { senderId: clientUser.id, recieverId: user2.id },
+                { senderId: user2.id, recieverId: clientUser.id },
+              ],
             },
           });
           return messages;
         }
 
-        const messages = getAllMessages(clientUser);
+        const messages = await getAllMessages(clientUser);
+        console.log("debug-- messages : ", messages);
         return res.send({ messages });
       } catch (err) {
         console.error("error getting conversation.", err.message);
@@ -188,6 +192,8 @@ module.exports = {
   dashboard_get,
   message_get,
   message_post,
+
+  conversation_get,
   //
 };
 
