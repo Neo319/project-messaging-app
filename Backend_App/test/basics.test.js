@@ -204,14 +204,24 @@ describe("Messages", () => {
     expect(dbMessage).not.toBeFalsy;
   });
 
+  test("sent message exists in database", async () => {
+    console.log("running message test");
+    const allMessages = await prisma.message.findMany();
+    console.log(allMessages);
+    expect(allMessages.length >= 1).toBeTruthy();
+  });
+
   test("reciever can see sender in list of contacts", async () => {
+    // TODO: current problem here is that user id is not matched with the message reciever...
     const response = await request(app)
       .get("/app/messages")
       .set("Authorization", `Bearer ${token2}`);
 
-    expect(response.contacts).toBeDefined();
-    expect(response.contacts).toBeInstanceOf(Array);
-    expect(response.contacts).toContain("john"); // username can be found from this response
+    console.log(response.body);
+
+    expect(response.body.contacts).toBeDefined();
+    expect(response.body.contacts).toBeInstanceOf(Array);
+    expect(response.body.contacts).toContain("john"); // username can be found from this response
   });
 
   // test("reciever can see message contents in message history")

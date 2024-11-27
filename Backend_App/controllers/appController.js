@@ -52,12 +52,47 @@ const message_get = [
           const authUser = await prisma.user.findUnique({
             where: { id: authData.user.id },
           });
-          console.log(authData);
-          console.log(authUser);
+
+          // collect all users where message history exists...
+          async function getUsersWithMessageHistory(userId) {
+            console.log("debug - id: ", userId);
+            const users = await prisma.user.findMany({
+              where: {
+                OR: [
+                  {
+                    sentMessages: {
+                      some: {
+                        recieverId: userId,
+                      },
+                    },
+                  },
+                  {
+                    recievedMessages: {
+                      some: {
+                        senderId: userId,
+                      },
+                    },
+                  },
+                ],
+              },
+              select: {
+                id: true,
+                username: true,
+              },
+            });
+            console.log("debug - users1: ", users);
+
+            return users;
+          }
+          const users = await getUsersWithMessageHistory(authUser.id);
+
           // return array in res
+          console.log("debug - users: ", users);
+          return res.send({ contacts: users });
         } catch (err) {
           console.error("error fetching messages", err.message);
-          return res.send("error fetching messages", err.message);
+          res.send(err.message);
+          res.status(400).end();
         }
       }
       console.error("message_get route should not end here");
