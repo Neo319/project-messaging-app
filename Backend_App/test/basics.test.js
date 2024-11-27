@@ -225,4 +225,14 @@ describe("Messages", () => {
   });
 
   // test("reciever can see message contents in message history")
+  test("reciever can see message contents in message history route", async () => {
+    const response = await request(app)
+      .get("/app/messages/user=john") // include username
+      .set("Authorization", `Bearer ${token}`);
+
+    console.log("debug - messages found: ", response.body);
+
+    expect(response.body.messages).toBeDefined();
+    expect(response.body.messages).toBeInstanceOf(Array);
+  });
 });

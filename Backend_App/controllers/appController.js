@@ -98,6 +98,54 @@ const message_get = [
   },
 ];
 
+// --- GET ALL MESSAGES WITH ONE USER ---
+const conversation_get = [
+  verify,
+  function (req, res) {
+    jwt.verify(req.token, SECRET_KEY, async (err, authData) => {
+      try {
+        const clientUser = authData.user;
+        const user2 = await prisma.findFirstOrThrow({
+          where: {
+            username: req.params.username,
+          },
+        });
+
+        // handle errors
+        if (!clientUser || !user2) {
+          console.error(
+            "error getting conversation -- missing data: ",
+            clientUser,
+            user2
+          );
+          return res.send(400);
+        }
+
+        //return all message data between users
+        async function getAllMessages(user) {
+          const messages = await prisma.user.findUniqueOrThrow({
+            where: {
+              id: user.id,
+            },
+            select: {
+              sentMessages: true,
+              recievedMessages: true,
+            },
+          });
+          return messages;
+        }
+
+        const messages = getAllMessages(clientUser);
+        return res.send({ messages });
+      } catch (err) {
+        console.error("error getting conversation.", err.message);
+        res.send(err.message);
+        res.status(400).end();
+      }
+    });
+  },
+];
+
 const message_post = [
   verify,
   function (req, res) {
