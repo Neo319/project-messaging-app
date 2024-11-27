@@ -29,7 +29,6 @@ const dashboard_get = [
       if (err) {
         return res.status(401).send({ message: "error during authorization." });
       } else {
-        console.log("successful -- ", authData);
         return res
           .status(200)
           .send({ message: "successfully renders dashboard" }); // TODO: should send array of users that have any message history
@@ -52,10 +51,10 @@ const message_get = [
           const authUser = await prisma.user.findUnique({
             where: { id: authData.user.id },
           });
+          console.log(authUser);
 
           // collect all users where message history exists...
           async function getUsersWithMessageHistory(userId) {
-            console.log("debug - id: ", userId);
             const users = await prisma.user.findMany({
               where: {
                 OR: [
@@ -80,14 +79,12 @@ const message_get = [
                 username: true,
               },
             });
-            console.log("debug - users1: ", users);
 
             return users;
           }
           const users = await getUsersWithMessageHistory(authUser.id);
 
           // return array in res
-          console.log("debug - users: ", users);
           return res.send({ contacts: users });
         } catch (err) {
           console.error("error fetching messages", err.message);
@@ -107,8 +104,6 @@ const message_post = [
     jwt.verify(req.token, SECRET_KEY, async (err, authData) => {
       try {
         if (err) return console.error("error in validation", err.message);
-
-        console.log("here!");
         // validate and trim message contents
         const messageText = req.body.message.trim();
         const recieverName = req.body.reciever;
