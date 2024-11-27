@@ -222,7 +222,7 @@ describe("Messages", () => {
     expect(response.body.contacts[0]).toBeInstanceOf(Object);
 
     // username can be found from this response
-    expect(response.body.contacts[0]).toHaveProperty("username", "john");
+    expect(response.body.contacts[0]).toHaveProperty("username", "uniqueTest");
   });
 
   // test("reciever can see message contents in message history")
@@ -235,5 +235,6 @@ describe("Messages", () => {
 
     expect(response.body.messages).toBeDefined();
     expect(response.body.messages).toBeInstanceOf(Array);
+    expect(response.body.messages[0]).toHaveProperty("text", "Test message");
   });
 });
