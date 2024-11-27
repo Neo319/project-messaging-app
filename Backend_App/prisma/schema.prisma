@@ -23,8 +23,9 @@ model User {
 }
 
 model Message {
-  id   Int    @id @unique @default(autoincrement())
+  id   Int      @id @unique @default(autoincrement())
   text String
+  date DateTime @default(now())
 
   senderId   Int
   recieverId Int
