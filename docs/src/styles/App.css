@@ -22,7 +22,7 @@ header {
   min-width: 100vw;
   border-bottom: 1px solid gray;
   background-color: #fff;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.5s ease;
   background-image: linear-gradient(#85badd00, #fff);
 }
 .headerIcon {
@@ -44,4 +44,14 @@ header:hover .headerIcon {
 }
 header h1 {
   margin-left: 10px;
+}
+
+/* user Panel styles */
+#userPanel {
+  border: 1px solid red;
+  padding: 2em;
+
+  position: fixed;
+  left: 0;
+  bottom: 0;
 }

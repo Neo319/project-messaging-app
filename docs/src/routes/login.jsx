@@ -32,13 +32,35 @@ export default function Login() {
       .then((response) => {
         console.log(response);
 
-        if (response.success === true) {
+        if (response.success === true && response.token) {
           alert(`Login success (tokens not implemented.)`);
-          window.location.href = "/dashboard";
+
+          // attach token
+          localStorage.token = response.token;
+
           // redirect to login on success
+          window.location.href = "/dashboard";
         }
         // notify if there is an error
       });
+  }
+
+  // ---- handle Logged in users ----
+  if (localStorage.getItem("token")) {
+    return (
+      <>
+        {header()}
+        <p>Error... user already logged in.</p>
+        <a
+          href="/"
+          onClick={() => {
+            localStorage.clear();
+          }}
+        >
+          Log out
+        </a>
+      </>
+    );
   }
 
   return (

@@ -2,6 +2,7 @@ import "./styles/App.css";
 import "./styles/Homepage.css";
 import footer from "./components/footer";
 import header from "./components/header";
+import userPanel from "./components/userPanel.jsx";
 
 import { useState, useEffect } from "react";
 
@@ -68,6 +69,7 @@ function App() {
             </a>
           </li>
         </ul>
+        {userPanel()}
       </article>
       {footer()}
     </>
