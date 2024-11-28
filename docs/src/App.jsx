@@ -14,10 +14,8 @@ function App() {
         return res.json();
       })
       .then((data) => {
-        console.log(data);
         // notify user about server status
         const status = data.server_status === "ok" ? "ok" : "error";
-
         setStatus(status);
       });
   }, []);
@@ -42,10 +40,12 @@ function App() {
         </p>
 
         {/* SERVER STATUS TEST */}
-        <p>Server status: res = {JSON.stringify(status)}</p>
+        <p>
+          Server status: <b>{status}</b>
+        </p>
 
         {/* ROUTES */}
-        <p>Client-side routing test go!! </p>
+        <p>Main app routes: </p>
         <ul>
           <li>
             <a href="signup" target="_blank" rel="noopener noreferrer">

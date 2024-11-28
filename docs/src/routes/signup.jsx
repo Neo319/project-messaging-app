@@ -2,7 +2,8 @@ import "../styles/App.css";
 import header from "../components/header";
 
 function formSubmit(data) {
-  //
+  console.log("debug -- Url: ", import.meta.env.VITE_API_URL);
+  console.log("debug -- Data: ", false);
 }
 
 export default function SignUp() {
@@ -25,7 +26,7 @@ export default function SignUp() {
         <input required="true" type="password" name="password2" />
         <br />
 
-        <input type="submit" value="Create User" />
+        <input type="button" value="Create User" onClick={formSubmit} />
       </form>
     </>
   );
