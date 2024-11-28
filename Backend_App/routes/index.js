@@ -4,7 +4,10 @@ const indexController = require("../controllers/indexController");
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  res.send("Welcome to project Message board (WIP)");
+  res.send({
+    server_status: "ok",
+    message: "Welcome to Project Message Board (WIP)",
+  });
 });
 
 router.get("/signup", indexController.signup_get);

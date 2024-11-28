@@ -14,9 +14,10 @@ app.use(express.json());
 
 // allowing requests from appropriate origins
 const allowedOrigins =
-  process.env.NODE_ENV === "development"
-    ? ["https://neo319.github.io"] // production env
-    : ["*"]; // development env
+  process.env.NODE_ENV === "dev"
+    ? "*" // development env
+    : ["https://neo319.github.io"]; // production env
+
 app.use(
   cors({
     origin: allowedOrigins,

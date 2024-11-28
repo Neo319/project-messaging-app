@@ -7,18 +7,21 @@ import { useState, useEffect } from "react";
 
 function App() {
   // effect for testing server status
-  const [data, setData] = useState();
+  const [status, setStatus] = useState();
   useEffect(() => {
     fetch(import.meta.env.VITE_API_URL) // insert correct url
       .then((res) => {
-        console.log(res);
         return res.json();
       })
       .then((data) => {
         console.log(data);
-        setData(data);
+        // notify user about server status
+        const status = data.server_status === "ok" ? "ok" : "error";
+
+        setStatus(status);
       });
   }, []);
+  // notify user about server status
 
   return (
     <>
@@ -39,7 +42,7 @@ function App() {
         </p>
 
         {/* SERVER STATUS TEST */}
-        <p>Server status: res = {data}</p>
+        <p>Server status: res = {JSON.stringify(status)}</p>
 
         {/* ROUTES */}
         <p>Client-side routing test go!! </p>
