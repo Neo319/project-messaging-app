@@ -2,6 +2,8 @@ import "../styles/App.css";
 import header from "../components/header";
 import { useState } from "react";
 
+import UserPanel from "../components/userPanel.jsx";
+
 export default function Login() {
   const [formData, setFormData] = useState({
     username: "",
@@ -59,6 +61,7 @@ export default function Login() {
         >
           Log out
         </a>
+        {UserPanel()}
       </>
     );
   }
@@ -96,6 +99,7 @@ export default function Login() {
 
         <input type="submit" value="Login" />
       </form>
+      {UserPanel()}
     </>
   );
 }

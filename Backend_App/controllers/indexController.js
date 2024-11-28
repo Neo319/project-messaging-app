@@ -4,6 +4,7 @@ require("dotenv").config();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
+const verify = require("../config/jwt");
 
 //jwt secret from .env
 const SECRET_KEY = process.env.SECRET_KEY;
@@ -101,9 +102,28 @@ async function login_post(req, res) {
     return res.status(403).send({ message: "Error during login." });
   }
 }
+
+// Return user DETAIL.
+const user_detail = [
+  verify,
+  async function (req, res) {
+    jwt.verify(req.token, SECRET_KEY, (err, authData) => {
+      if (err) {
+        return res.status(401).send({ message: "error during authorization." });
+      } else {
+        const result = {
+          username: authData.user.username,
+        };
+        return res.json(result);
+      }
+    });
+  },
+];
+
 module.exports = {
   signup_get,
   signup_post,
   login_post,
+  user_detail,
   //
 };

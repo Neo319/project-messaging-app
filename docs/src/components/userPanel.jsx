@@ -10,14 +10,12 @@ export default function UserPanel() {
     if (token) {
       //fetch user detail
       fetch(`${import.meta.env.VITE_API_URL}/user`, {
-        method: "POST",
         headers: { Authorization: "Bearer " + token },
       })
         .then((res) => {
           return res.json();
         })
         .then((data) => {
-          console.log("debug -- user data = ", data);
           setUser(data);
         });
     } else {
@@ -30,7 +28,8 @@ export default function UserPanel() {
       <div id="userPanel">
         hello
         <br />
-        <span>User data: {JSON.stringify(user)}</span>
+        <div id="userIcon" />
+        <span>{JSON.stringify(user)}</span>
       </div>
     </>
   );
