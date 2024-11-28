@@ -11,6 +11,19 @@ const app = express();
 //parsing json payloads
 app.use(express.json());
 
+// allowing requests from appropriate origins
+const allowedOrigins =
+  process.env.NODE_ENV === "development"
+    ? ["https://neo319.github.io"] // production env
+    : ["*"]; // development env
+app.use(
+  cors({
+    origin: allowedOrigins,
+    methods: "POST, GET, PUT, DELETE",
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
 app.use("/", indexRouter);
 app.use("/app", appRouter);
 
