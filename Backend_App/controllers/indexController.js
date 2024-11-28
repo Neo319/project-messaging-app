@@ -31,6 +31,7 @@ async function signup_get(req, res) {
 
 // SIGN UP & create a user
 async function signup_post(req, res) {
+  console.log(req.body);
   const { username, password } = req.body;
 
   if (!username || !password) {

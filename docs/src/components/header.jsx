@@ -5,7 +5,9 @@ export default function header() {
   return (
     <>
       <header>
-        <img src={icon} alt="messager logo" className="headerIcon" />
+        <a href="/">
+          <img src={icon} alt="messager logo" className="headerIcon" />
+        </a>
         <img src={reactLogo} alt="react logo" className="reactIcon" />
 
         <h1>Project Message App</h1>

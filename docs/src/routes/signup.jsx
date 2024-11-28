@@ -2,11 +2,6 @@ import "../styles/App.css";
 import header from "../components/header";
 import { useState } from "react";
 
-function formSubmit(data) {
-  console.log("debug -- Url: ", import.meta.env.VITE_API_URL);
-  console.log("debug -- Data: ", data);
-}
-
 export default function SignUp() {
   const [formData, setFormData] = useState({
     username: "",
@@ -14,7 +9,7 @@ export default function SignUp() {
     password2: "",
   });
 
-  //handle changes to form data while maintaining
+  // ---- handle changes to form data  ----
   function handleChange(e) {
     const name = e.target.name;
     const value = e.target.value;
@@ -23,6 +18,31 @@ export default function SignUp() {
       ...prev,
       [name]: value,
     }));
+  }
+
+  // ---- Submitting the form data ----
+  function formSubmit(data) {
+    console.log("debug -- Url: ", import.meta.env.VITE_API_URL);
+    console.log("debug -- Data: ", data);
+
+    // sending the request
+    fetch(`${import.meta.env.VITE_API_URL}/signup`, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((result) => {
+        return result.json();
+      })
+      .then((response) => {
+        console.log(response);
+
+        if (response.success === true) {
+          alert(`New user ${formData.username} successfully created.`);
+          // redirect to login on success
+        }
+        // notify if there is an error
+      });
   }
 
   return (
@@ -39,7 +59,7 @@ export default function SignUp() {
       >
         <label htmlFor="username">Username: </label>
         <input
-          required="true"
+          required={true}
           type="text"
           name="username"
           value={formData.username}
@@ -48,11 +68,23 @@ export default function SignUp() {
         <br />
 
         <label htmlFor="password">Enter Password: </label>
-        <input required="true" type="password2" name="password" />
+        <input
+          required={true}
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+        />
         <br />
 
         <label htmlFor="password2">Confirm Password: </label>
-        <input required="true" type="password" name="password2" />
+        <input
+          required={true}
+          type="password"
+          name="password2"
+          value={formData.password2}
+          onChange={handleChange}
+        />
         <br />
 
         <input type="submit" value="Create User" />
