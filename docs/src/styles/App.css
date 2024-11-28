@@ -21,9 +21,13 @@ header {
   left: 0;
   min-width: 100vw;
   border-bottom: 1px solid gray;
+  background-color: #fff;
+  transition: background-color 0.3s ease;
+  background-image: linear-gradient(#85badd00, #fff);
 }
 .headerIcon {
   height: 10em;
+  border-radius: 10px;
   transition: box-shadow 0.3s;
 }
 .reactIcon {
@@ -32,16 +36,12 @@ header {
   left: 6em;
   top: 1em;
 }
-.headerIcon:hover {
-  /* border: 1px solid red; */
-  box-shadow: 0 0 12px rgba(33, 33, 33, 0.3);
+header:hover {
+  background-color: #85badd;
 }
-
+header:hover .headerIcon {
+  box-shadow: 0 0 18px rgba(33, 33, 33, 0.3);
+}
 header h1 {
   margin-left: 10px;
-  transition: text-decoration 0.3s;
-}
-
-header h1:hover {
-  text-decoration: underline;
 }
