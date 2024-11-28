@@ -3,9 +3,22 @@ import "./styles/Homepage.css";
 import footer from "./components/footer";
 import header from "./components/header";
 
+import { useState, useEffect } from "react";
+
 function App() {
-  console.log("env file data here:");
-  console.log(import.meta.env.VITE_SAMPLE_URL);
+  // effect for testing server status
+  const [data, setData] = useState();
+  useEffect(() => {
+    fetch(import.meta.env.VITE_API_URL) // insert correct url
+      .then((res) => {
+        console.log(res);
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setData(data);
+      });
+  }, []);
 
   return (
     <>
@@ -26,6 +39,7 @@ function App() {
         </p>
 
         {/* SERVER STATUS TEST */}
+        <p>Server status: res = {data}</p>
 
         {/* ROUTES */}
         <p>Client-side routing test go!! </p>
