@@ -24,10 +24,24 @@ header {
 }
 .headerIcon {
   height: 10em;
+  transition: box-shadow 0.3s;
 }
 .reactIcon {
   height: 4em;
   position: inherit;
   left: 6em;
   top: 1em;
+}
+.headerIcon:hover {
+  /* border: 1px solid red; */
+  box-shadow: 0 0 12px rgba(33, 33, 33, 0.3);
+}
+
+header h1 {
+  margin-left: 10px;
+  transition: text-decoration 0.3s;
+}
+
+header h1:hover {
+  text-decoration: underline;
 }
