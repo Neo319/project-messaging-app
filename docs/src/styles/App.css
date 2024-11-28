@@ -5,6 +5,10 @@
   text-align: center;
 }
 
+body {
+  margin-top: 10em;
+}
+
 header {
   display: flex;
   flex-direction: row;
