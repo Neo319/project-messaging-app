@@ -48,12 +48,12 @@ function App() {
         <p>Main app routes: </p>
         <ul>
           <li>
-            <a href="signup" target="_blank" rel="noopener noreferrer">
+            <a href="signup" rel="noopener noreferrer">
               Sign up page
             </a>
           </li>
           <li>
-            <a href="login" target="_blank" rel="noopener noreferrer">
+            <a href="login" rel="noopener noreferrer">
               Login page
             </a>
           </li>
