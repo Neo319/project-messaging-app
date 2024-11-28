@@ -1,10 +1,14 @@
 import "../styles/App.css";
-import icon from "../assets/messageIcon2.jpg";
+import header from "../components/header";
+
+function formSubmit(data) {
+  //
+}
 
 export default function SignUp() {
   return (
     <>
-      <img src={icon} alt="Messager Icon" className="icon message" />
+      {header()}
       <h1>Hi. Signup page here.</h1>
 
       <h2>Create New User here.</h2>

@@ -1,8 +1,12 @@
 import "./styles/App.css";
+import "./styles/Homepage.css";
 import footer from "./components/footer";
 import header from "./components/header";
 
 function App() {
+  console.log("env file data here:");
+  console.log(import.meta.env.VITE_SAMPLE_URL);
+
   return (
     <>
       {header()}
@@ -20,6 +24,8 @@ function App() {
           </a>
           , an open-source online educational resource for web developers.
         </p>
+
+        {/* SERVER STATUS TEST */}
 
         {/* ROUTES */}
         <p>Client-side routing test go!! </p>

@@ -5,8 +5,11 @@
   text-align: center;
 }
 
+/* ensuring body does not overlap with header */
 body {
   margin-top: 10em;
+
+  min-height: min-content;
 }
 
 header {
@@ -19,7 +22,6 @@ header {
   min-width: 100vw;
   border-bottom: 1px solid gray;
 }
-
 .headerIcon {
   height: 10em;
 }
