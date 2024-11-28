@@ -1,5 +1,14 @@
 import "../styles/App.css";
 
-export default function Message() {
-  return <h1>Hi. Message page here.</h1>;
+import header from "../components/header";
+import UserPanel from "../components/userPanel";
+
+export default function Dashboard() {
+  return (
+    <>
+      {header()}
+      <h1>Hi. Message page here.</h1>
+      {UserPanel()}
+    </>
+  );
 }

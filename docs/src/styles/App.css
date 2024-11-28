@@ -48,10 +48,35 @@ header h1 {
 
 /* user Panel styles */
 #userPanel {
-  border: 1px solid red;
-  padding: 2em;
+  border: 1px solid #cfcfcf;
+  border-top-right-radius: 20px;
+  background-color: rgba(240, 255, 255, 0.9);
+  padding: 1em;
+  padding-right: 2em;
 
   position: fixed;
   left: 0;
   bottom: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
+}
+#userIcon {
+  border: 2px solid gray;
+  width: 80px;
+  height: 80px;
+  border-radius: 100%;
+
+  overflow: hidden;
+}
+#userPanel img {
+  transform: translate(-5px, -4px);
+}
+
+#userPanel span {
+  text-decoration: solid;
+  align-self: center;
+  font-size: 1.5em;
 }

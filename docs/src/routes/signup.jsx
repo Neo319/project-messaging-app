@@ -1,5 +1,7 @@
 import "../styles/App.css";
 import header from "../components/header";
+import UserPanel from "../components/userPanel";
+
 import { useState } from "react";
 
 export default function SignUp() {
@@ -89,6 +91,7 @@ export default function SignUp() {
 
         <input type="submit" value="Create User" />
       </form>
+      {UserPanel()}
     </>
   );
 }

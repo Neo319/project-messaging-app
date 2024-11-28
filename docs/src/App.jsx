@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 
 function App() {
   // effect for testing server status
-  const [status, setStatus] = useState();
+  const [status, setStatus] = useState("error");
   useEffect(() => {
     fetch(import.meta.env.VITE_API_URL) // insert correct url
       .then((res) => {
