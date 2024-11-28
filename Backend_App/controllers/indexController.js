@@ -56,6 +56,7 @@ async function signup_post(req, res) {
 
   res.json({
     message: "Signup POST request completed.",
+    success: true,
   });
 }
 
@@ -93,6 +94,7 @@ async function login_post(req, res) {
     res.json({
       message: "Login request success.",
       token: token,
+      success: true,
     });
   } catch (err) {
     console.error("error during login", err.message);
