@@ -24,20 +24,30 @@ export default function Dashboard() {
       });
   }, []);
 
-  if (!localStorage.getItem("token")) {
-    return <>Dashboard (err:not logged in!)</>;
-  }
-
   return (
     <>
       {header()}
 
       <div className="panel" id="contactsList">
         Contacts list 👀
-        <p>contacts: {JSON.stringify(contacts)}</p>
+        {/* error message if not logged in. */}
+        {localStorage.getItem("token") ? (
+          <></>
+        ) : (
+          <p>Dashboard (err: not logged in!)</p>
+        )}
+        {/* notify if there are no contacts */}
+        {contacts && contacts.length > 0 ? (
+          <p>temp: contacts list will render here.</p>
+        ) : (
+          <p>There are no contacts yet! 😬</p>
+        )}
+        <button>Add new Contact ... </button>
       </div>
 
-      <div id="profile">Customize profile ⚙️</div>
+      <div id="profile">
+        <a href="/">Customize profile ⚙️ (Not yet implemented)</a>
+      </div>
 
       {UserPanel()}
     </>

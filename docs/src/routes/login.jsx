@@ -35,7 +35,7 @@ export default function Login() {
         console.log(response);
 
         if (response.success === true && response.token) {
-          alert(`Login success (tokens not implemented.)`);
+          alert(`Login success!`);
 
           // attach token
           localStorage.token = response.token;
