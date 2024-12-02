@@ -42,7 +42,8 @@ export default function Dashboard() {
         ) : (
           <p>There are no contacts yet! 😬</p>
         )}
-        <button>Add new Contact ... </button>
+        <button>Create a new message ... </button>
+        {/* TODO: above button must render a new form where you enter the user you are contacting */}
       </div>
 
       <div id="profile">
