@@ -18,6 +18,8 @@ router.post("/login", indexController.login_post);
 
 router.get("/user", indexController.user_detail);
 
+router.get("/checkuser/:username", indexController.check_user);
+
 // router.get("/dashboard");
 
 module.exports = router;

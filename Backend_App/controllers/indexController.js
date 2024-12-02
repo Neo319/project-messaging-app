@@ -120,10 +120,34 @@ const user_detail = [
   },
 ];
 
+// check that user exists in database, for creating new messages.
+const check_user = async function (req, res) {
+  try {
+    //username to check
+    const username = req.params.username;
+
+    const result = await prisma.user.findFirst({
+      where: {
+        username: username,
+      },
+    });
+
+    if (!result) {
+      return res.json({ userExists: false });
+    } else {
+      return res.json({ userExists: true });
+    }
+  } catch (err) {
+    console.error("error during check user route.", err.message);
+    return res.send(err.message);
+  }
+};
+
 module.exports = {
   signup_get,
   signup_post,
   login_post,
   user_detail,
+  check_user,
   //
 };

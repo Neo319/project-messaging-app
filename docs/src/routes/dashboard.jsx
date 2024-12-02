@@ -28,7 +28,6 @@ export default function Dashboard() {
 
   // ---- handle changes to form data  ----
   function handleChange(e) {
-    console.log(e.target);
     const name = e.target.name;
     const value = e.target.value;
 
@@ -38,7 +37,22 @@ export default function Dashboard() {
     }));
   }
 
-  function submitForm() {}
+  function submitForm() {
+    // confirm that user to contact exists in database.
+    fetch(`${import.meta.env.VITE_API_URL}/checkuser/${form.newContact}`)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log("debug -- fetch result: ", data);
+
+        // if user is not found, notify
+        if (!data) {
+          console.log("there is no data....");
+        }
+      });
+    // redirect to appropriate route to contact user.
+  }
 
   return (
     <>
@@ -71,6 +85,7 @@ export default function Dashboard() {
           id="newContactForm"
           onSubmit={(e) => {
             e.preventDefault();
+            submitForm();
           }}
         >
           <label htmlFor="contact">Enter new contact username: </label>
