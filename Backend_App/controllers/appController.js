@@ -182,7 +182,7 @@ const message_post = [
         return res.send("message send success");
       } catch (err) {
         console.error("error posting message", err.message);
-        return res.send(err.message);
+        return res.status(500).send(err.message);
       }
     });
   },

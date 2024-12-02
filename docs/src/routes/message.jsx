@@ -8,10 +8,9 @@ import { useState, useEffect } from "react";
 
 export default function Dashboard() {
   const token = localStorage.getItem("token");
-  // the user you are contacting
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-
+  const [loading, setLoading] = useState(true);
   // URL paramater for user being contacted
   const params = useParams();
 
@@ -34,18 +33,27 @@ export default function Dashboard() {
         return res.json();
       })
       .then((data) => {
-        console.log(data);
-        setMessages(data);
+        if (Array.isArray(data.messages)) {
+          setMessages(data.messages);
+        } else {
+          setMessages(["err"]);
+        }
+        setLoading(false);
       });
   }, [token, params]);
-
-  // 2. return all messages and provide simple form that can send post requests.
 
   // ---- handle changes to form data  ----
   function handleChange(e) {
     const value = e.target.value;
 
     setNewMessage(value);
+  }
+
+  // managing state with loads
+
+  //debug
+  function logMessages() {
+    console.log(messages);
   }
 
   return (
@@ -57,55 +65,62 @@ export default function Dashboard() {
         <span>debug: data = {JSON.stringify(messages)}</span>
       </div>
 
-      {!messages.length ? (
-        <p>This is the start of your message history with {params.user}.</p>
+      {loading ? (
+        <span> Loading... </span>
       ) : (
-        <div id="messageList">
-          <ul>
-            {messages.map((message) => {
-              <li>
-                {message.text} -- {message.date}
-              </li>;
-            })}
-          </ul>
-        </div>
+        <>
+          {Array.isArray(messages) && messages.length <= 0 ? (
+            <p>This is the start of your message history with {params.user}.</p>
+          ) : (
+            <div id="messageList">
+              <ul>
+                {messages.map((message, index) => {
+                  return (
+                    <li key={"message_" + index}>
+                      {message.text} --{" "}
+                      {new Date(message.date).toLocaleString()}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          )}
+          <div id="MessageInput">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                console.log("here!");
+                //SENDING THE POST REQUEST
+                fetch(`${import.meta.env.VITE_API_URL}/app/messages`, {
+                  method: "POST",
+                  body: JSON.stringify({
+                    message: newMessage,
+                    reciever: params.user,
+                  }),
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                  },
+                })
+                  .then((res) => {
+                    return res.json();
+                  })
+                  .then((data) => {
+                    console.log(data);
+                  });
+              }}
+            >
+              <input
+                required
+                type="text"
+                onChange={handleChange}
+                value={newMessage}
+              />
+              <input type="submit" value="Send" />
+            </form>
+          </div>
+        </>
       )}
-
-      <div id="MessageInput">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            console.log("here!");
-            console.log(newMessage, params.user);
-            //SENDING THE POST REQUEST
-            fetch(`${import.meta.env.VITE_API_URL}/app/messages`, {
-              method: "POST",
-              body: JSON.stringify({
-                message: newMessage,
-                reciever: params.user,
-              }),
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json",
-              },
-            })
-              .then((res) => {
-                return res.json();
-              })
-              .then((data) => {
-                console.log(data);
-              });
-          }}
-        >
-          <input
-            required
-            type="text"
-            onChange={handleChange}
-            value={newMessage}
-          />
-          <input type="submit" value="Send" />
-        </form>
-      </div>
 
       {UserPanel()}
     </>
