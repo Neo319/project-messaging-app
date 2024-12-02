@@ -45,10 +45,19 @@ export default function Dashboard() {
       })
       .then((data) => {
         console.log("debug -- fetch result: ", data);
-
-        // if user is not found, notify
+        // 1.error handling
         if (!data) {
           console.log("there is no data....");
+          return false;
+        }
+
+        // 2. notify user if the username is not found.
+        if (!data.userExists) {
+          setForm({ newContact: "" });
+          alert("User not found in database.");
+        } else {
+          // user found in database. redirect to message route for this user.
+          window.location.href = `/message/${form.newContact}`;
         }
       });
     // redirect to appropriate route to contact user.

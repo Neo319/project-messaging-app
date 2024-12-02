@@ -29,7 +29,7 @@ const router = createBrowserRouter([
     element: <Dashboard />,
   },
   {
-    path: "message/user=:user",
+    path: "message/:user",
     element: <Message />,
   },
 ]);
