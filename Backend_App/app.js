@@ -16,7 +16,7 @@ app.use(express.json());
 const allowedOrigins =
   process.env.NODE_ENV === "dev"
     ? "*" // development env
-    : ["https://neo319.github.io"]; // production env
+    : ["https://neo319-messaging-app.netlify.app"]; // production env
 
 app.use(
   cors({
