@@ -10,7 +10,7 @@
   color: gray;
 }
 
-ul li {
+#messageList li {
   list-style: none;
   max-width: 20em;
   text-align: left;
