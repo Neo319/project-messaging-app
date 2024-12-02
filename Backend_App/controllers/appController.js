@@ -180,7 +180,7 @@ const message_post = [
         return res.send("message send success");
       } catch (err) {
         console.error("error posting message", err.message);
-        res.error(err.message);
+        return res.send(err.message);
       }
       console.error("message post request ended...");
       return res.send("should not be here");
