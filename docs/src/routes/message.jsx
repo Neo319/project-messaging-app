@@ -1,4 +1,5 @@
 import "../styles/App.css";
+import "../styles/message.css";
 
 import header from "../components/header";
 import UserPanel from "../components/userPanel";
@@ -11,6 +12,7 @@ export default function Dashboard() {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [loading, setLoading] = useState(true);
+  const [userId, setUserId] = useState(null);
   // URL paramater for user being contacted
   const params = useParams();
 
@@ -35,6 +37,7 @@ export default function Dashboard() {
       .then((data) => {
         if (Array.isArray(data.messages)) {
           setMessages(data.messages);
+          setUserId(data.senderId);
         } else {
           setMessages(["err"]);
         }
@@ -49,21 +52,9 @@ export default function Dashboard() {
     setNewMessage(value);
   }
 
-  // managing state with loads
-
-  //debug
-  function logMessages() {
-    console.log(messages);
-  }
-
   return (
     <>
       {header()}
-      <span>debug: user2 = {JSON.stringify(params)}</span>
-
-      <div>
-        <span>debug: data = {JSON.stringify(messages)}</span>
-      </div>
 
       {loading ? (
         <span> Loading... </span>
@@ -76,9 +67,25 @@ export default function Dashboard() {
               <ul>
                 {messages.map((message, index) => {
                   return (
-                    <li key={"message_" + index}>
-                      {message.text} --{" "}
-                      {new Date(message.date).toLocaleString()}
+                    <li
+                      key={"message_" + index}
+                      className={
+                        userId === message.senderId ? "sent" : "recieved"
+                      }
+                    >
+                      {message.text}
+                      <div id="detail">
+                        {userId === message.senderId ? (
+                          <span>
+                            <b>You, </b>
+                          </span>
+                        ) : (
+                          <span>{params.user}, </span>
+                        )}
+                        <span>
+                          {new Date(message.date).toLocaleTimeString()}
+                        </span>
+                      </div>
                     </li>
                   );
                 })}

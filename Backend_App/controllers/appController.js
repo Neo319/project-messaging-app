@@ -135,7 +135,7 @@ const conversation_get = [
         }
 
         const messages = await getAllMessages(clientUser);
-        return res.send({ messages });
+        return res.send({ messages, senderId: authData.user.id });
       } catch (err) {
         console.error("error getting conversation.", err.message);
         res.send(err.message);

@@ -1,0 +1,32 @@
+#messageList {
+  width: 30em;
+  display: flex;
+  position: relative;
+  justify-content: center;
+}
+
+#detail {
+  font-size: 0.7em;
+  color: gray;
+}
+
+ul li {
+  list-style: none;
+  max-width: 20em;
+  text-align: left;
+  padding: 0.3em;
+  border-radius: 10px;
+  margin-bottom: 0.7em;
+}
+
+.sent {
+  border: 1px solid red;
+  position: relative;
+  left: 13em;
+}
+
+.recieved {
+  border: 1px solid blue;
+  position: relative;
+  right: 13em;
+}
