@@ -8,6 +8,8 @@ import { useState, useEffect } from "react";
 export default function Dashboard() {
   const [contacts, setContacts] = useState();
 
+  const [form, setForm] = useState({ newContact: "" });
+
   // let token = localStorage.getItem(token);
 
   useEffect(() => {
@@ -23,6 +25,20 @@ export default function Dashboard() {
         return data;
       });
   }, []);
+
+  // ---- handle changes to form data  ----
+  function handleChange(e) {
+    console.log(e.target);
+    const name = e.target.name;
+    const value = e.target.value;
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
+
+  function submitForm() {}
 
   return (
     <>
@@ -42,8 +58,32 @@ export default function Dashboard() {
         ) : (
           <p>There are no contacts yet! 😬</p>
         )}
-        <button>Create a new message ... </button>
+        <button popovertarget="newContactForm">
+          Create a new message ...{" "}
+        </button>
         {/* TODO: above button must render a new form where you enter the user you are contacting */}
+      </div>
+
+      {/* Form for contacting a new user and linking to message route -- */}
+      <div>
+        <form
+          popover="true"
+          id="newContactForm"
+          onSubmit={(e) => {
+            e.preventDefault();
+          }}
+        >
+          <label htmlFor="contact">Enter new contact username: </label>
+          <input
+            type="text"
+            name="newContact"
+            id="newContact"
+            onChange={handleChange}
+            value={form.contacts}
+          />
+          <br />
+          <input type="submit" value="Find User" />
+        </form>
       </div>
 
       <div id="profile">

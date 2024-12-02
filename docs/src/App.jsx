@@ -63,11 +63,6 @@ function App() {
           <li>
             <a href="dashboard">Dashboard</a>
           </li>
-          <li>
-            <a href="message" rel="noopener noreferrer">
-              Message
-            </a>
-          </li>
         </ul>
         {userPanel()}
       </article>
