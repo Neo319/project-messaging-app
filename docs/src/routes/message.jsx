@@ -76,15 +76,17 @@ export default function Dashboard() {
           onSubmit={(e) => {
             e.preventDefault();
             console.log("here!");
+            console.log(newMessage, params.user);
             //SENDING THE POST REQUEST
             fetch(`${import.meta.env.VITE_API_URL}/app/messages`, {
               method: "POST",
-              body: {
+              body: JSON.stringify({
                 message: newMessage,
                 reciever: params.user,
-              },
+              }),
               headers: {
                 Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
               },
             })
               .then((res) => {

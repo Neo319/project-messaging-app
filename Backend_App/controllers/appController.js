@@ -104,16 +104,12 @@ const conversation_get = [
   function (req, res) {
     jwt.verify(req.token, SECRET_KEY, async (err, authData) => {
       try {
-        console.log("here!");
         const clientUser = authData.user;
         const user2 = await prisma.user.findFirstOrThrow({
           where: {
             username: req.params.user,
           },
         });
-
-        console.log("debug: user2 = ", user2);
-        console.log(req.params);
 
         // handle errors
         if (!clientUser || !user2 || !req.params.user) {
@@ -139,7 +135,6 @@ const conversation_get = [
         }
 
         const messages = await getAllMessages(clientUser);
-        console.log("debug-- messages : ", messages);
         return res.send({ messages });
       } catch (err) {
         console.error("error getting conversation.", err.message);
@@ -156,9 +151,16 @@ const message_post = [
     jwt.verify(req.token, SECRET_KEY, async (err, authData) => {
       try {
         if (err) return console.error("error in validation", err.message);
+
+        console.log(req.body);
         // validate and trim message contents
-        const messageText = req.body.message.trim();
+        const messageText = req.body.message;
         const recieverName = req.body.reciever;
+
+        if (!messageText || !recieverName) {
+          console.error("missing required information.");
+          return res.status(400).send("missing required information");
+        }
 
         const reciever = await prisma.user.findUniqueOrThrow({
           where: {
@@ -182,8 +184,6 @@ const message_post = [
         console.error("error posting message", err.message);
         return res.send(err.message);
       }
-      console.error("message post request ended...");
-      return res.send("should not be here");
     });
   },
 ];
