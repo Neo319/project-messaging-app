@@ -45,7 +45,7 @@ function App() {
           Server status: <b>{status}</b>
         </p>
 
-        <p>TODO: useEffect hook to track login tokens.</p>
+      
 
         {/* ROUTES */}
         <p>Main app routes: </p>
