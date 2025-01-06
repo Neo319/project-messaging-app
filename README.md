@@ -17,7 +17,7 @@ This is a personal portfolio project built as a monorepo. It is a solution to [t
 
 This project's front end is deployed on Netlify, and its back end is deployed on Railway.
 
-[See live preview here.](https://neo319-messaging-app.netlify)
+[See live preview here.](https://neo319-messaging-app.netlify.app)
 
 ## Features
 
